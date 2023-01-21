@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "node build.js",
+    "prebuild": "yarn clean",
     "clean": "rimraf dist",
     "start": "node dist/shard.js",
     "dev": "yarn clean && yarn build && yarn start"
