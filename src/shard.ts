@@ -13,7 +13,7 @@ if (!process.env.DISCORD_TOKEN) {
   process.exit(1);
 }
 
-const manager = new ShardingManager(join("dist", "index.js"), {
+const manager = new ShardingManager(join("dist", "bot.js"), {
   token: process.env.DISCORD_TOKEN,
   totalShards: "auto",
 });
