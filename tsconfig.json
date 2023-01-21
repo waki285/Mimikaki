@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es2021",
+    "lib": ["ESNext"],
+    "module": "commonjs",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "newLine": "lf",
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "skipLibCheck": true
+  },
+  "exclude": ["node_modules", "dist"]
+}
