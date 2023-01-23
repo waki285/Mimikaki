@@ -13,4 +13,6 @@ build({
   logLevel: "info",
   color: true,
   tsconfig: "tsconfig.json",
+  sourcesContent: false,
+  allowOverwrite: true,
 });

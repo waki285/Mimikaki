@@ -28,6 +28,32 @@ export class Mimikaki extends Client {
   public async start() {
     this.logger.info(`PID ${process.pid} Starting...`);
 
+    await import("@/events/ready").then((module) => {
+      this.once("ready", new module.default(this).run);
+    });
+    await import("@/events/warn").then((module) => {
+      this.on("warn", new module.default(this).run);
+    });
+    await import("@/events/error").then((module) => {
+      this.on("error", new module.default(this).run);
+    });
+
+    await import("@/events/shardDisconnect").then((module) => {
+      this.on("shardDisconnect", new module.default(this).run);
+    });
+    await import("@/events/shardError").then((module) => {
+      this.on("shardError", new module.default(this).run);
+    });
+    await import("@/events/shardReconnecting").then((module) => {
+      this.on("shardReconnecting", new module.default(this).run);
+    });
+    await import("@/events/shardResume").then((module) => {
+      this.on("shardResume", new module.default(this).run);
+    });
+    await import("@/events/shardReady").then((module) => {
+      this.on("shardReady", new module.default(this).run);
+    });
+
   }
   public async stop() {}
 }
