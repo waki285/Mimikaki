@@ -8,6 +8,7 @@ export class Mimikaki extends Client {
   private logger = getLogger("Mimikaki");
   private _ready = false;
 
+
   public readonly commandManager: CommandManager;
 
   constructor() {
@@ -41,6 +42,7 @@ export class Mimikaki extends Client {
     await import("@/events/shardDisconnect").then((module) => {
       this.on("shardDisconnect", new module.default(this).run);
     });
+    
     await import("@/events/shardError").then((module) => {
       this.on("shardError", new module.default(this).run);
     });
