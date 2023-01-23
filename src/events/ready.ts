@@ -11,7 +11,7 @@ export default class extends Event {
   public async run(client: Client<true>): Promise<void> {
     this.logger.info('Succesfully logged in and is Ready.');
     this.logger.trace(
-      `Cached ${this.client.guilds.cache.size} guild${
+      `Cached ${client.guilds.cache.size} guild${
         client.guilds.cache.size <= 1 ? '' : 's'
       }`
     );

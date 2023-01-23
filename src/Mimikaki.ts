@@ -2,6 +2,8 @@ import { Client , GatewayIntentBits, Partials } from "discord.js";
 import { getLogger } from "log4js";
 import configLogger from "@/logger";
 import { CommandManager } from '@/manager';
+import mongoose from "mongoose";
+import log4js from 'log4js';
 
 
 export class Mimikaki extends Client {
@@ -30,7 +32,7 @@ export class Mimikaki extends Client {
     this.logger.info(`PID ${process.pid} Starting...`);
 
     await import("@/events/ready").then((module) => {
-      this.once("ready", new module.default(this).run);
+      this.once("ready", (c) => new module.default(this).run(c));
     });
     await import("@/events/warn").then((module) => {
       this.on("warn", new module.default(this).run);
@@ -56,6 +58,26 @@ export class Mimikaki extends Client {
       this.on("shardReady", new module.default(this).run);
     });
 
+    await import("@/events/interactionCreate").then((module) => {
+      this.on("interactionCreate", (i) => new module.default(this).run(i));
+    });
+
+    await this.commandManager.registerAll().catch((e) => this.logger.error(e));
+    
+    mongoose.set("strictQuery", true);
+    if (!process.env.MONGO_URI) throw new Error("MONGO_URI is not defined");
+    await mongoose.connect(process.env.MONGO_URI).catch((e) => this.logger.error(e));
+
+    this.logger.info('Initialize done. Logging in...');
+    await super.login(process.env.TOKEN).catch((e) => this.logger.error(e));
   }
-  public async stop() {}
+  public async stop() {
+    this.logger.info(`PID ${process.pid} Stopping...`);
+    this.ready = false;
+    this.destroy();
+    await mongoose.disconnect().catch((e) => this.logger.error(e));
+    log4js.shutdown();
+
+    process.exit();
+  }
 }

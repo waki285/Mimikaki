@@ -17,6 +17,8 @@ export default class extends Event {
   public async run(interaction: Interaction): Promise<void> {
     this.logger.trace('Received interaction event');
 
+    const userData = await userManager.getUserData(interaction.user.id);
+
     try {
       if (
         interaction.isChatInputCommand() ||
@@ -38,7 +40,7 @@ export default class extends Event {
         embeds: [
           {
             color: Colors.Red,
-            title: i18n.t(guildData.language, 'error.error'),
+            title: i18n.t(userData.language, 'error.error'),
             description: inspect(e, {
               depth: 1,
               maxArrayLength: null,
