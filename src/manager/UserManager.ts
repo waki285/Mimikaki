@@ -5,16 +5,16 @@ import { botAdministrators } from '@/helper';
 class UserManager {
   public async createUserData(userId: string): Promise<void> {
     await database.users.create({
-      user_id: userId,
+      userId: userId,
     });
   }
 
   public async getUserData(userId: string): Promise<User> {
-    let user = await database.users.findOne({ user_id: userId });
+    let user = await database.users.findOne({ userId: userId });
 
     if (!user) {
       await this.createUserData(userId);
-      user = await database.users.findOne({ user_id: userId });
+      user = await database.users.findOne({ userId: userId });
     }
     if (!user) throw new Error('Failed to create user data');
 
@@ -27,7 +27,7 @@ class UserManager {
   ): Promise<void> {
     await this.getUserData(userId);
 
-    await database.users.updateOne({ user_id: userId }, { $set: data });
+    await database.users.updateOne({ userId: userId }, { $set: data });
   }
 
   public checkIsBotAdmin(userId: string): boolean {
